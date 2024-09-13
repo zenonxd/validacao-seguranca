@@ -245,6 +245,73 @@ código, veja:
 
 ![img_8.png](img_8.png)
 
+## Preparando projeto para Segurança (Security + OAuth2)
+
+[Repositório de referencia](https://github.com/devsuperior/spring-boot-oauth2-jwt-demo/tree/main/password-grant)
+
+## Implementando checklist Spring Security
+
+Implementar as interfaces (UserDetails, GrantedAuthority, UserDetailsService e UsernameNotFoundException).
+
+[Seguir tudo daqui](https://olavo-moreira.gitbook.io/studies/v/login-e-controle-de-acesso/inserindo-oauth2-e-jwt-em-um-projeto/springsecurity-interfaces)
+
+## OAuth2 e JWT
+
+[Visão geral OAuth2 (Teórica)](https://olavo-moreira.gitbook.io/studies/v/login-e-controle-de-acesso/visao-geral-oauth2)
+
+[Inserindo OAuth2 e JWT no projeto](https://olavo-moreira.gitbook.io/studies/v/login-e-controle-de-acesso/inserindo-oauth2-e-jwt-em-um-projeto/oauth2-jwt-password-grant)
+
+## Requisição de Login
+
+[Veja aqui](https://olavo-moreira.gitbook.io/studies/v/login-e-controle-de-acesso/postman/requisicao-de-login)
+
+## Melhorando postman
+
+Criando ambiente, referenciando variáveis, etc.
+
+[Veja aqui](https://olavo-moreira.gitbook.io/studies/v/login-e-controle-de-acesso/postman)
+
+## Controle de acesso
+
+Passar nos endpoints
+
+```.java
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+
+@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
+```
+
+## Teste camada web unidade (tirando filtro de Role)
+
+Para que os testes da camada web passem não usando os filtros de roles do Controller, faremos o seguinte.
+
+No nome da classe, passar:
+
+```.java
+@WebMvcTest(value = ProductController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+```
+
+## Teste camada web integração
+
+Geraremos um token valido e iremos inserir na requisição (dentro do perform), veja:
+
+Criaremos uma classe chamada TokenUtil. Essa classe irá criar um token válido usando MockMvc, ele será retornado em
+String.
+
+Veja a classe [aqui](https://gist.github.com/acenelio/814230a96e0bf8f4fb0d96bd044e9d64)
+
+Para implementar ela no nosso teste de ingração do Controller é muito fácil.
+
+1. Injetar o TokenUtil;
+2. Criar 3 variáveis do tipo String: username, password, bearerToken;
+3. Iniciar elas no setUp com os dados:
+
+![img_9.png](img_9.png)
+
+Agora dentro dos métodos que precisarem do Token, passar a variável na header, veja:
+
+![img_10.png](img_10.png)
+
 
 
 

@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,18 +22,18 @@ public class UserDTO {
 
     @Email(message = "Favor inserir email válido")
     private String email;
+
     private String password;
 
     private Set<RoleDTO> roleDTO = new HashSet<>();
 
     public UserDTO() {}
 
-    public UserDTO(Long id, String firstName, String lastName, String email, String password) {
+    public UserDTO(Long id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
     }
 
     public UserDTO(User entity) {
@@ -40,7 +41,6 @@ public class UserDTO {
         firstName = entity.getFirstName();
         lastName = entity.getLastName();
         email = entity.getEmail();
-        password = entity.getPassword();
 
         for (Role r : entity.getRoles()) {
             roleDTO.add(new RoleDTO(r.getId(), r.getAuthority()));
